@@ -1,0 +1,4 @@
+# The operating artifact is intentionally stdlib-only. No third-party packages.
+# Requires Python 3.8 or newer.
+#
+# Run:  python pipeline_sim.py
