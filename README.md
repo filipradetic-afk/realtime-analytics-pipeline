@@ -188,3 +188,24 @@ and the levers that pull cost down: [`docs/COST-MODEL.md`](docs/COST-MODEL.md).
 *Artifact, evidence log, and AI disclosure are part of this submission by design:
 the measured piece is small and honestly labeled, and the reasoning is meant to
 be defensible in an interview rather than merely complete-looking.*
+
+---
+
+## Author
+
+**Filip Radetić** — Process Automation & AI Engineer. I build and run production
+automation and applied-AI systems: multi-provider LLM orchestration with failover,
+retrieval (RAG), structured output, and REST/ERP integration. My day-to-day platform
+processes 1,000+ jobs per day at roughly 90% less manual work. I work AI-augmented
+(Claude Code, Cursor) and self-taught, and I care about shipping systems that hold up
+in production and about being honest where the confidence is unearned.
+
+- GitHub: https://github.com/filipradetic-afk
+- LinkedIn: https://www.linkedin.com/in/filip-radetic
+- Portfolio: https://aiagencydx.com
+- Email: filip.radetic@gmail.com
+- Related work: [multi-llm-failover](https://github.com/filipradetic-afk/multi-llm-failover)
+  — multi-provider LLM orchestration with automatic failover.
+
+Based in Tuttlingen, Germany. EU citizen. Working languages: English (C1), Croatian
+(native), German (A1, improving).
