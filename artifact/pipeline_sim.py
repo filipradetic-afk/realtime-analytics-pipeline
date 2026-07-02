@@ -59,6 +59,60 @@ class Event:
         self.size = size
 
 
+# ---------------------------------------------------------------------------
+# Pure, deterministic core. These functions have no threads, no clocks, and no
+# I/O, so they are directly unit-testable and are the exact logic the threaded
+# processor below delegates to. Keeping the window math in one place means the
+# tests exercise the same code path as the live simulator.
+# ---------------------------------------------------------------------------
+
+def window_id_for(ingest_ts, window_seconds=WINDOW_SECONDS):
+    """Tumbling-window id for an event timestamp. Left-closed, right-open."""
+    return int(ingest_ts // window_seconds)
+
+
+def aggregate_windows(events, window_seconds=WINDOW_SECONDS):
+    """
+    Fold an iterable of events into per-(window, tenant) counts.
+
+    Each event must expose `.tenant` and `.ingest_ts`. Returns a dict keyed by
+    (window_id, tenant) -> count. This is the aggregation the stream processor
+    performs; isolating it makes the windowing correctness verifiable.
+    """
+    counts = collections.defaultdict(int)
+    for e in events:
+        counts[(window_id_for(e.ingest_ts, window_seconds), e.tenant)] += 1
+    return counts
+
+
+def percentiles(values, ps=(50, 95, 99)):
+    """Convenience: return {p: value} for the requested percentiles."""
+    ordered = sorted(values)
+    return {p: pct(ordered, p) for p in ps}
+
+
+def make_events(n, num_tenants=NUM_TENANTS, seed=42, window_seconds=WINDOW_SECONDS,
+                span_windows=4):
+    """
+    Deterministically build `n` events from a seed, spread across `span_windows`
+    tumbling windows. This is a seeded, clock-free event source: given the same
+    seed it always yields byte-identical events, which is what lets the
+    aggregation determinism test assert exact equality. The live simulator's
+    threaded generator is clock-paced (its event *count* varies per host); this
+    helper isolates the reproducible part of "same seed -> same aggregates".
+    """
+    rng = random.Random(seed)
+    horizon = window_seconds * span_windows
+    events = []
+    for _ in range(n):
+        events.append(Event(
+            tenant=rng.randrange(num_tenants),
+            ingest_ts=rng.uniform(0.0, horizon),
+            size=rng.randint(*EVENT_BYTES),
+        ))
+    return events
+
+
 def generator(q, stop_event, eps_schedule, shed, stats):
     """
     Produce events according to a schedule of (duration_seconds, eps) phases.
@@ -132,8 +186,7 @@ def processor(q, stop_event, latencies, windows, stats, max_eps=None):
         batch_start = time.perf_counter()
         visible_ts = batch_start
         for e in batch:
-            window_id = int(e.ingest_ts // WINDOW_SECONDS)
-            windows[(window_id, e.tenant)] += 1
+            windows[(window_id_for(e.ingest_ts), e.tenant)] += 1
             latencies.append(visible_ts - e.ingest_ts)
             stats["processed"] += 1
 

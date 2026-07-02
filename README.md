@@ -13,6 +13,8 @@ MVP / 6-month full build.
 - Source-labeled claims: [`docs/EVIDENCE-LOG.md`](docs/EVIDENCE-LOG.md)
 - AI usage disclosure: [`docs/AI-DISCLOSURE.md`](docs/AI-DISCLOSURE.md)
 - Runnable proof of the mechanics: [`artifact/pipeline_sim.py`](artifact/pipeline_sim.py)
+  (unit tests: [`artifact/test_pipeline_sim.py`](artifact/test_pipeline_sim.py))
+- Captured benchmark + test output: [`RESULTS.md`](RESULTS.md)
 
 ---
 
@@ -89,9 +91,12 @@ Every stage has a bounded buffer and a policy for when it is full:
   immutable S3 raw archive.
 
 The [artifact](artifact/pipeline_sim.py) demonstrates both policies against a
-580-then-5,800 eps profile: backpressure yields **zero drops** with bounded p99,
-and `--shed` shows an explicit, **counted** shed under a deliberately
-under-provisioned processor.
+580-then-5,800 eps profile: backpressure yields **zero drops** with bounded p99
+(latest run: 16,606 produced == 16,606 processed, 0 dropped, p99 1.09 s), and
+`--shed` shows an explicit, **counted** shed under a deliberately
+under-provisioned processor (18,935 produced == 15,647 processed + 3,288 shed).
+These invariants are asserted by [`artifact/test_pipeline_sim.py`](artifact/test_pipeline_sim.py)
+(12 passing tests), and the full captured output is in [`RESULTS.md`](RESULTS.md).
 
 ## 5. Migration: zero breaking changes
 

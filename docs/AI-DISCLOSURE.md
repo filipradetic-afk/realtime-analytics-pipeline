@@ -49,9 +49,12 @@ document, and the [Evidence Log](EVIDENCE-LOG.md), are that.
 ## Reproducibility
 
 The operating artifact is runnable and stdlib-only, so a reviewer can verify the
-one measured claim in this submission independently:
+measured claims in this submission independently:
 
 ```bash
 python artifact/pipeline_sim.py
 python artifact/pipeline_sim.py --shed
+python -m unittest discover -s artifact -p "test_*.py" -v
 ```
+
+Captured output from these commands is in [`RESULTS.md`](../RESULTS.md).

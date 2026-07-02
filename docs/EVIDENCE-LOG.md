@@ -37,12 +37,13 @@ class with a one-line basis. Label meanings:
 
 | Claim | Value | Class | Basis |
 | ----- | ----- | ----- | ----- |
-| Simulator p99 latency (backpressure) | ~1.0 s | [observed] | `python pipeline_sim.py`, single run; varies by host. |
+| Simulator p99 latency (backpressure) | ~1.0-1.1 s | [observed] | `python pipeline_sim.py`, single run; varies by host. Captured runs in RESULTS.md. |
 | Simulator drops (backpressure) | 0 | [observed] | Bounded queue with blocking `put`; producer throttled. |
 | Simulator drops (shed) | ~3,000-3,400 | [observed] | `--shed`; counted drops on full queue under burst. |
-| Simulator throughput | ~2,200-2,400 eps | [observed] | Processor capped via `--max-eps 4000`; GIL-bound single process. |
-| Run time | < 10 s | [observed] | Wall clock on a laptop. |
-| p99 < 5 s target met | PASS | [observed] | Both policies in the artifact. |
+| Simulator throughput | ~2,000-2,400 eps | [observed] | Processor capped via `--max-eps 4000`; GIL-bound single process. |
+| Run time | < 10 s | [observed] | Wall clock; ~7.5 s per run on Windows / Python 3.13. |
+| Unit tests | 12 pass | [observed] | `python -m unittest discover -s artifact -p "test_*.py"`; stdlib only. |
+| p99 < 5 s target met | PASS | [observed] | Both policies in the artifact; see RESULTS.md. |
 
 Note: the artifact's absolute latencies are in-process queueing times, **not** a
 prediction of AWS production latency. They demonstrate mechanics (bounded buffer

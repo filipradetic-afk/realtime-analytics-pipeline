@@ -36,12 +36,44 @@ Two policies are demonstrated against the same load:
 Sample output (numbers vary slightly per run and per host):
 
 ```
-Backpressure:  produced 15,968  processed 15,968  dropped 0      p99  1.01 s   PASS
-Shed:          produced 19,138  processed 15,774  dropped 3,364  p99  1.00 s   PASS
+Backpressure:  produced 16,606  processed 16,606  dropped 0      p99  1.09 s   PASS
+Shed:          produced 18,935  processed 15,647  dropped 3,288  p99  1.03 s   PASS
 ```
 
 Both keep p99 latency well under the 5-second target while the two mechanics
-(zero-loss backpressure vs. explicit counted shedding) are made visible.
+(zero-loss backpressure vs. explicit counted shedding) are made visible. Full,
+captured runs with the exact commands are in
+[`../RESULTS.md`](../RESULTS.md).
+
+## Tests
+
+Stdlib `unittest`, no third-party dependencies. From the repo root:
+
+```bash
+python -m unittest discover -s artifact -p "test_*.py" -v
+```
+
+Or from inside `artifact/`:
+
+```bash
+python -m unittest test_pipeline_sim -v
+```
+
+The suite (12 tests, ~20 s) asserts the load-bearing invariants rather than
+absolute latencies, so it is deterministic and Windows-safe:
+
+- **Windowed aggregation** against hand-built events with known
+  per-(window, tenant) counts, plus left-closed/right-open window boundaries.
+- **Backpressure** drops nothing: `produced == processed`, `dropped == 0`.
+- **Shedding** loses nothing silently: `produced == processed + shed`.
+- **Latency** percentiles are finite, positive, and ordered `p50 <= p95 <= p99`.
+- **Determinism**: same seed yields identical aggregates (on the seeded,
+  clock-free `make_events` path); different seeds diverge.
+
+To keep the aggregation determinism check exact, the module exposes a seeded,
+clock-free event source (`make_events`) alongside the clock-paced live
+generator. The threaded simulator's event *count* varies by host (it is paced by
+the wall clock); the counted invariants above hold on every run.
 
 ## Honest caveats
 
