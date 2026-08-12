@@ -204,8 +204,10 @@ in production and about being honest where the confidence is unearned.
 - LinkedIn: https://www.linkedin.com/in/filip-radetic
 - Portfolio: https://aiagencydx.com
 - Email: filip.radetic@gmail.com
-- Related work: [multi-llm-failover](https://github.com/filipradetic-afk/multi-llm-failover)
-  — multi-provider LLM orchestration with automatic failover.
+- Related work: [multi-llm-failover](https://github.com/filipradetic-afk/multi-llm-failover),
+  multi-provider LLM orchestration with automatic failover, and
+  [erp-webshop-sync](https://github.com/filipradetic-afk/erp-webshop-sync), a PHP/SQL
+  ERP-to-webshop sync with validation, anomaly quarantine, and an audit trail.
 
 Based in Tuttlingen, Germany. EU citizen. Working languages: English (C1), Croatian
-(native), German (A1, improving).
+(native), German (A2, improving).
