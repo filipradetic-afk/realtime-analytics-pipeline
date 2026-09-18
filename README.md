@@ -1,7 +1,5 @@
 # Real-Time Analytics Pipeline
 
-**"Beat Claude" challenge, engineer-004. Candidate: Filip Radetić.**
-
 A design for a real-time analytics pipeline for a Series B martech startup:
 50M events/day, sub-5-second end-to-end latency, 10x spike resilience with zero
 data loss, GDPR/CCPA/SOC 2 compliant, multi-tenant across 500+ customers, AWS
@@ -11,7 +9,6 @@ MVP / 6-month full build.
 - Deeper architecture, diagram, schema, tech trade-offs: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Cost breakdown: [`docs/COST-MODEL.md`](docs/COST-MODEL.md)
 - Source-labeled claims: [`docs/EVIDENCE-LOG.md`](docs/EVIDENCE-LOG.md)
-- AI usage disclosure: [`docs/AI-DISCLOSURE.md`](docs/AI-DISCLOSURE.md)
 - Runnable proof of the mechanics: [`artifact/pipeline_sim.py`](artifact/pipeline_sim.py)
   (unit tests: [`artifact/test_pipeline_sim.py`](artifact/test_pipeline_sim.py))
 - Captured benchmark + test output: [`RESULTS.md`](RESULTS.md)
@@ -193,15 +190,14 @@ be defensible in an interview rather than merely complete-looking.*
 
 ## Author
 
-**Filip Radetić** — Process Automation & AI Engineer. I build and run production
-automation and applied-AI systems: multi-provider LLM orchestration with failover,
-retrieval (RAG), structured output, and REST/ERP integration. My day-to-day platform
-processes 1,000+ jobs per day at roughly 90% less manual work. I work AI-augmented
-(Claude Code, Cursor) and self-taught, and I care about shipping systems that hold up
-in production and about being honest where the confidence is unearned.
+**Filip Radetić**, Business Process Automation & Applied AI Engineer. For two years
+I ran a production workflow automation platform in Python: multi-provider LLM
+orchestration with failover, retrieval, structured output, and integration against a
+live ERP over REST and SQL. Before that, five years on webshops in PHP and SQL. I care
+about systems that hold up once real data reaches them.
 
 - GitHub: https://github.com/filipradetic-afk
-- LinkedIn: https://www.linkedin.com/in/filip-radetic
+- LinkedIn: https://www.linkedin.com/in/filip-radeti%C4%87/
 - Portfolio: https://aiagencydx.com
 - Email: filip.radetic@gmail.com
 - Related work: [multi-llm-failover](https://github.com/filipradetic-afk/multi-llm-failover),
